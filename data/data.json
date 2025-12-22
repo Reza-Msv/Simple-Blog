@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "Mastering Next.js 14 Server Components",
+    "content": "Learn how to use server components effectively in your project.",
+    "category": "React | Next.js",
+    "slug": "mastering-nextjs-14",
+    "tags": "Frontend | Performance",
+    "status": true,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  },
+  {
+    "id": 2,
+    "title": "Tailwind CSS Best Practices 2025",
+    "content": "Improve your styling workflow with these professional tips.",
+    "category": "CSS | Tailwind",
+    "slug": "tailwind-best-practices",
+    "tags": "Design | UI/UX",
+    "status": false,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  },
+  {
+    "id": 3,
+    "title": "TypeScript Advanced Patterns",
+    "content": "Deep dive into generics, utility types, and type safety.",
+    "category": "JS | TypeScript",
+    "slug": "typescript-advanced-patterns",
+    "tags": "Programming | Web",
+    "status": true,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  },
+  {
+    "id": 4,
+    "title": "Building Scalable APIs with Node",
+    "content": "A guide to building fast and secure backends.",
+    "category": "Node | Backend",
+    "slug": "scalable-node-apis",
+    "tags": "Backend | Architecture",
+    "status": true,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  },
+  {
+    "id": 5,
+    "title": "State Management in 2025",
+    "content": "Zustand vs Redux vs React Context: Which one to choose?",
+    "category": "React | State",
+    "slug": "state-management-2025",
+    "tags": "Frontend | Logic",
+    "status": false,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  },
+  {
+    "id": 6,
+    "title": "Deployment Strategies for DevOps",
+    "content": "CI/CD pipelines and containerization made simple.",
+    "category": "DevOps | Docker",
+    "slug": "devops-strategies",
+    "tags": "DevOps | Cloud",
+    "status": true,
+    "author": "John Doe",
+    "date": "Feb 28, 2025"
+  }
+]
