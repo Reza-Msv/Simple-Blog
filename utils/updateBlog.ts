@@ -3,10 +3,9 @@ import { toast } from "sonner";
 
 export const handleUpdate = async (values: any, blogId: string) => {
   const toastId = toast.loading("Updating blog post...");
-
+          
   const result = await updateBlogAction(values, blogId);
-  console.log(result, "result");
-
+      
   if (result.success) {
     toast.success("Blog post updated successfully!", { id: toastId });
 
@@ -14,6 +13,6 @@ export const handleUpdate = async (values: any, blogId: string) => {
       window.location.href = "/blog";
     }
   } else {
-    toast.error(result.message || "Something went wrong", { id: toastId });
+    toast.error(result.error || "Something went wrong", { id: toastId });
   }
 };

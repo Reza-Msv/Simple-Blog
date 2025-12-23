@@ -1,5 +1,4 @@
 import { ChevronRight } from "lucide-react";
-import { toast } from "sonner";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,27 +8,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { BlogForm } from "@/components/common/BlogForm";
-import { createBlogAction } from "@/app/actions/blog.create";
 import { fetchBlogPosts } from "@/utils/fetchBlog";
 
 const BlogEditContainer = async ({ blogId }: { blogId: string }) => {
   const previousBlog = await fetchBlogPosts({ blogId });
-  // const router = useRouter();
-
-  // const handleCreate = async (values: any) => {
-  //   const toastId = toast.loading("Creating blog post...");
-
-  //   const result = await createBlogAction(values);
-
-  //   if (result.success) {
-  //     toast.success("Blog post created successfully!", { id: toastId });
-  //     router.push("/blog");
-  //     router.refresh();
-  //   } else {
-  //     toast.error(result.message || "Something went wrong", { id: toastId });
-  //   }
-  // };
-
   return (
     <section className="px-6 sm:px-10 lg:px-20 py-10 font-poppins min-h-screen bg-white dark:bg-black">
       <Breadcrumb className="mb-8">
@@ -64,7 +46,11 @@ const BlogEditContainer = async ({ blogId }: { blogId: string }) => {
           </p>
         </header>
 
-        <BlogForm blogId={blogId} initialData={previousBlog} isEditing={true} />
+        <BlogForm
+          blogId={blogId}
+          initialData={previousBlog[0] || previousBlog}
+          isEditing={true}
+        />
       </div>
     </section>
   );

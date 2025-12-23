@@ -28,13 +28,12 @@ const Header = () => {
     <header
       className="
         relative w-full flex items-center justify-between
-        px-6 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-20
         py-3 sm:py-4
         bg-[#D5D5D53D] dark:bg-[#3F3C3C63]
         transition-colors duration-300
       "
     >
-      {/* Left Section: Logo */}
       <div className="flex items-center z-10">
         <p className="block sm:hidden text-[20px] font-semibold text-black dark:text-white">
           To Do List

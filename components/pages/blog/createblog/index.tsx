@@ -1,8 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { toast } from "sonner";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,44 +10,27 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { BlogForm } from "@/components/common/BlogForm";
-import { createBlogAction } from "@/app/actions/blog.create"; 
 
 const CreateBlogPageContainer = () => {
-  const router = useRouter();
-
-  // const handleCreate = async (values: any) => {
-  //   const toastId = toast.loading("Creating blog post...");
-
-  //   const result = await createBlogAction(values);
-
-  //   if (result.success) {
-  //     toast.success("Blog post created successfully!", { id: toastId });
-  //     router.push("/blog");
-  //     router.refresh(); 
-  //   } else {
-  //     toast.error(result.message || "Something went wrong", { id: toastId });
-  //   }
-  // };
-
   return (
     <section className="px-6 sm:px-10 lg:px-20 py-10 font-poppins min-h-screen bg-white dark:bg-black">
-      <Breadcrumb className="mb-8">
+      <Breadcrumb className="mb-10">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink
               href="/blog"
-              className="text-black font-medium text-[14px] decoration-black underline"
+              className="text-zinc-600 hover:text-black font-medium text-[14px] underline underline-offset-4 dark:text-white dark:hover:text-zinc-200"
             >
               Blog Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="flex items-center text-black">
-            <ChevronRight size={14} />
-            <ChevronRight size={14} />
+          <BreadcrumbSeparator className="flex items-center space-x-[-8px]">
+            <ChevronRight size={14} className="text-zinc-400 dark:text-white" />
+            <ChevronRight size={14} className="text-zinc-400 dark:text-white" />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-[#B14E06] font-medium text-[14px]">
-              New Blog
+            <BreadcrumbPage className="text-[#B14E06] dark:text-[#FAAD75] font-medium text-[14px]">
+             Create Blog
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -65,7 +46,7 @@ const CreateBlogPageContainer = () => {
           </p>
         </header>
 
-        <BlogForm  onCancel={() => router.back()} />
+        <BlogForm />
       </div>
     </section>
   );

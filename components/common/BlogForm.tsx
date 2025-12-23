@@ -29,6 +29,8 @@ import { Badge } from "@/components/ui/badge";
 import { handleCreate } from "@/utils/createBlog";
 import { handleUpdate } from "@/utils/updateBlog";
 import { BlogPost } from "@/types/blogs";
+import { useRouter } from "next/navigation";
+
 const formSchema = z.object({
   title: z.string().min(2, "Title is required."),
   slug: z.string().min(2, "Slug is required."),
@@ -43,36 +45,35 @@ export type BlogFormValues = z.infer<typeof formSchema>;
 interface BlogFormProps {
   initialData?: BlogPost;
   blogId?: string;
-  // onSubmit: (values: BlogFormValues) => void;
-  onCancel?: () => void;
   isEditing?: boolean;
 }
 
 export const BlogForm: React.FC<BlogFormProps> = ({
   initialData,
   blogId,
-  // onSubmit,
-  onCancel,
   isEditing = false,
 }) => {
+  const router = useRouter();
+
   const form = useForm<BlogFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      title: "",
-      slug: "",
-      content: "",
-      category: "",
-      tags: "",
-      status: false,
+    resolver: zodResolver(formSchema) as any,
+    defaultValues: {
+      title: initialData?.title || "",
+      slug: initialData?.slug || "",
+      content: initialData?.content || "",
+      category: initialData?.category || "",
+      tags: initialData?.tags || "",
+      status: initialData?.status ?? false,
     },
   });
 
-  const control = form.control as Control<BlogFormValues>;
+  const control = form.control as unknown as Control<BlogFormValues>;
 
-  // منطق انتخاب چندگانه برای دسته بندی (بدون تکرار)
   const addCategory = (value: string) => {
     const current = form.getValues("category");
-    const arr = current ? current.split(" | ") : [];
+    const arr = current
+      ? current.split(" | ").filter((v) => v.trim() !== "")
+      : [];
     if (!arr.includes(value)) {
       form.setValue("category", [...arr, value].join(" | "), {
         shouldValidate: true,
@@ -81,30 +82,25 @@ export const BlogForm: React.FC<BlogFormProps> = ({
   };
 
   const removeCategory = (value: string) => {
-    console.log(value, "value");
-
     const current = form.getValues("category");
     const updated = current
       .split(" | ")
-      .filter((v) => v !== value)
+      .filter((v) => v.trim() !== value.trim())
       .join(" | ");
     form.setValue("category", updated, { shouldValidate: true });
   };
 
-  const formAction = (values) => {
+  const formAction = async (values: BlogFormValues) => {
     if (!isEditing) {
-      handleCreate(values);
+      await handleCreate(values);
     } else {
-      handleUpdate(blogId, values);
+      await handleUpdate(values, blogId as string);
     }
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((values) => formAction(values))}
-        className="space-y-6"
-      >
+      <form onSubmit={form.handleSubmit(formAction)} className="space-y-6">
         <FormField
           control={control}
           name="title"
@@ -117,7 +113,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                 <Input
                   placeholder="Enter Blog Title"
                   {...field}
-                  className="h-12"
+                  className="h-12 dark:bg-zinc-900 dark:border-zinc-800"
                 />
               </FormControl>
               <FormMessage />
@@ -137,7 +133,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                 <Input
                   placeholder="blog-post-slug"
                   {...field}
-                  className="h-12"
+                  className="h-12 dark:bg-zinc-900 dark:border-zinc-800"
                 />
               </FormControl>
               <FormDescription className="text-[12px] text-[#666666]">
@@ -161,7 +157,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                 <Textarea
                   placeholder="Write your blog content"
                   {...field}
-                  className="min-h-[140px] resize-none"
+                  className="min-h-35 resize-none dark:bg-zinc-900 dark:border-zinc-800"
                 />
               </FormControl>
               <FormMessage />
@@ -179,21 +175,24 @@ export const BlogForm: React.FC<BlogFormProps> = ({
               </FormLabel>
               <div className="flex flex-wrap gap-1.5 mb-2">
                 {field.value &&
-                  field.value.split(" | ").map((c) => (
-                    <Badge
-                      onClick={() => removeCategory(c)}
-                      key={c}
-                      variant="secondary"
-                      className="bg-orange-50 text-[#E67E22] border-[#E67E22]/20 py-1"
-                    >
-                      {c}
-                      <X size={12} className="ml-1 cursor-pointer" />
-                    </Badge>
-                  ))}
+                  field.value
+                    .split(" | ")
+                    .filter((c) => c.trim() !== "")
+                    .map((c) => (
+                      <Badge
+                        onClick={() => removeCategory(c)}
+                        key={c}
+                        variant="secondary"
+                        className="bg-orange-50 text-[#E67E22] border-[#E67E22]/20 py-1 cursor-pointer dark:bg-orange-950/20"
+                      >
+                        {c}
+                        <X size={12} className="ml-1" />
+                      </Badge>
+                    ))}
               </div>
               <Select onValueChange={(val) => addCategory(val)}>
                 <FormControl>
-                  <SelectTrigger className="h-12 w-full">
+                  <SelectTrigger className="h-12 w-full dark:bg-zinc-900 dark:border-zinc-800">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                 </FormControl>
@@ -212,7 +211,6 @@ export const BlogForm: React.FC<BlogFormProps> = ({
           )}
         />
 
-        {/* Tags: فقط انتخاب تکی (بدون دکمه حذف اضافی) */}
         <FormField
           control={control}
           name="tags"
@@ -227,7 +225,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                 value={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="h-12 w-full">
+                  <SelectTrigger className="h-12 w-full dark:bg-zinc-900 dark:border-zinc-800">
                     <SelectValue placeholder="Select Tag" />
                   </SelectTrigger>
                 </FormControl>
@@ -251,7 +249,9 @@ export const BlogForm: React.FC<BlogFormProps> = ({
             render={({ field }) => (
               <FormItem className="flex flex-col items-end gap-4 space-y-0">
                 <div className="flex items-center justify-end">
-                  <FormLabel className="text-base font-bold">Status</FormLabel>
+                  <FormLabel className="text-base font-bold dark:text-gray-200">
+                    Status
+                  </FormLabel>
                   <Switch
                     checked={field.value}
                     onCheckedChange={field.onChange}
@@ -261,7 +261,6 @@ export const BlogForm: React.FC<BlogFormProps> = ({
                 <FormDescription className="text-[12px] text-[#666666] leading-none">
                   Your post will be saved as a draft
                 </FormDescription>
-                <FormControl></FormControl>
               </FormItem>
             )}
           />
@@ -270,8 +269,8 @@ export const BlogForm: React.FC<BlogFormProps> = ({
             <Button
               type="button"
               variant="outline"
-              onClick={onCancel}
-              className="px-7 py-4 border-gray-300 rounded-md text-[16px]"
+              onClick={() => router.back()}
+              className="px-7 py-4 border-gray-300 rounded-md text-[16px] dark:border-zinc-800 dark:hover:bg-zinc-900"
             >
               Cancel
             </Button>

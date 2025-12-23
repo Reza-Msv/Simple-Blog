@@ -8,7 +8,7 @@ const BlogPageContainer = async () => {
   const blogData = await fetchBlogPosts({});
 
   return (
-    <section className="mt-10 px-4 sm:px-8 lg:px-20 font-poppins">
+    <section className="mt-10 max-md:mt-4 px-4 sm:px-8 lg:px-20 font-poppins">
       <div className="flex items-center justify-between w-full pt-11.5 pb-9.5">
         <h1 className="text-[24px] md:text-[32px] font-extrabold text-black dark:text-white">
           Blog Dashboard
@@ -17,7 +17,7 @@ const BlogPageContainer = async () => {
         <Button className="bg-[#FF6B00] hover:bg-[#E66000] text-white px-5 py-2 rounded-lg  transition-all active:scale-95 shadow-md lg:mr-2">
           <Link href="/blog/create" className="flex items-center gap-2">
             <CirclePlus size={20} />
-            <span className="text-[16px] font-semibold">New Blog</span>
+            <span className="text-[16px] max-md:text[14px] font-semibold">New Blog</span>
           </Link>
         </Button>
       </div>
