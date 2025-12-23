@@ -19,7 +19,7 @@ const BlogEditContainer = async ({ blogId }: { blogId: string }) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               href="/blog"
-              className="text-black font-medium text-[14px] decoration-black underline"
+              className="text-black font-medium text-[14px] decoration-black underline dark:text-white"
             >
               Blog Dashboard
             </BreadcrumbLink>
