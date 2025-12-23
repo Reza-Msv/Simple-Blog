@@ -25,8 +25,8 @@ const BlogEditContainer = async ({ blogId }: { blogId: string }) => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="flex items-center text-black">
-            <ChevronRight size={14} />
-            <ChevronRight size={14} />
+            <ChevronRight size={14} className="dark:text-white" />
+            <ChevronRight size={14} className="dark:text-white" />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbPage className="text-[#B14E06] font-medium text-[14px]">
